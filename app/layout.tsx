@@ -8,7 +8,7 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "sw
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "DarkOS AI · AI that runs in production",
+  title: "DarkOS AI · We build agentic platforms",
   description: SITE.description,
 };
 

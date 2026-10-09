@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePicks } from "@/lib/picks";
 import { SITE } from "@/lib/site";
 
 // The close is an input, not a button island: the visitor writes the problem
@@ -9,6 +10,7 @@ import { SITE } from "@/lib/site";
 export default function Composer() {
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState("");
+  const picks = usePicks();
 
   useEffect(() => {
     const form = formRef.current!;
@@ -40,8 +42,15 @@ export default function Composer() {
       return;
     }
     setError("");
-    const subject = `A problem for DarkOS AI${company ? ` from ${company}` : ""}`;
-    const body = `${problem}\n\n${company ? `Company: ${company}\n` : ""}`;
+    const subject = `Planning an agentic platform${company ? ` for ${company}` : ""}`;
+    const body = [
+      problem,
+      "",
+      picks.length ? `What we'd like built: ${picks.join(", ")}` : "",
+      company ? `Company: ${company}` : "",
+    ]
+      .filter((line, i) => i < 2 || line)
+      .join("\n");
     window.location.href = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -56,8 +65,13 @@ export default function Composer() {
       noValidate
     >
       <label className="composer__label" htmlFor="problem">
-        What should AI be doing for your business that it isn&apos;t?
+        What should an agent be doing for your business?
       </label>
+      {picks.length ? (
+        <p className="composer__picks" aria-live="polite">
+          <span>Your platform:</span> {picks.join(", ")}
+        </p>
+      ) : null}
       <textarea
         id="problem"
         name="problem"

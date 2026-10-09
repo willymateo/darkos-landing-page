@@ -34,16 +34,16 @@ export function SeamChrome() {
       <div className="seam-ground seam-ground--prod" />
       <div className="seam-ground seam-ground--demo" />
       <div className="seam-line">
-        <span className="seam-line__label seam-line__label--demo">Demo</span>
-        <span className="seam-line__label seam-line__label--prod">Production</span>
+        <span className="seam-line__label seam-line__label--demo">Today</span>
+        <span className="seam-line__label seam-line__label--prod">With DarkOS</span>
         <span className="seam-line__tick" />
       </div>
       <div className="seam-bar">
-        <span>Demo</span>
+        <span>Today</span>
         <span className="seam-bar__track">
           <span className="seam-bar__demo" />
         </span>
-        <span>Production</span>
+        <span>With DarkOS</span>
       </div>
     </div>
   );
@@ -99,7 +99,7 @@ export function StageSeam({ draggable = false }: { draggable?: boolean }) {
     };
     const unsub = seam.subscribe((v) => {
       handle.setAttribute("aria-valuenow", String(Math.round(v * 100)));
-      handle.setAttribute("aria-valuetext", `${Math.round(v * 100)}% demo, ${100 - Math.round(v * 100)}% production`);
+      handle.setAttribute("aria-valuetext", `${Math.round(v * 100)}% today, ${100 - Math.round(v * 100)}% with DarkOS`);
     });
 
     // Move/up on the window as well as capture: a fast drag must not drop the
@@ -128,7 +128,7 @@ export function StageSeam({ draggable = false }: { draggable?: boolean }) {
           type="button"
           className="stage-seam__handle"
           role="slider"
-          aria-label="Divider between the demo and the production build. Drag or use arrow keys to move it."
+          aria-label="Divider between today and what DarkOS builds. Drag or use arrow keys to move it."
           aria-valuemin={Math.round(SEAM_MIN * 100)}
           aria-valuemax={Math.round(SEAM_MAX * 100)}
           aria-valuenow={50}
