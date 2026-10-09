@@ -4,7 +4,9 @@ export const SITE = {
   name: "DarkOS AI",
   // TODO(owner): set the inbox that should receive "Bring a problem" emails.
   contactEmail: "hello@darkos.ai",
-  cta: "Bring a problem",
+  cta: "Plan your platform",
+  tagline:
+    "We design, build and run agentic platforms that work with your tools and data, ready for production and built to scale.",
   description:
-    "DarkOS AI is a software consultancy that designs, builds and runs agentic AI platforms for production.",
+    "DarkOS AI designs, builds and runs agentic platforms that work with your tools and data, ready for production and built to scale.",
 } as const;

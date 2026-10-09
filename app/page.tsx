@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Composer from "@/components/Composer";
+import PickButton from "@/components/PickButton";
 import { Mark, Wordmark } from "@/components/Mark";
 import ScrollCraftMount from "@/components/ScrollCraftMount";
 import { SeamChrome, StageSeam } from "@/components/SeamChrome";
@@ -14,13 +15,44 @@ import { SITE } from "@/lib/site";
 
 const s = (v: number) => ({ "--s": v }) as CSSProperties;
 
-const GAPS: [string, string][] = [
-  ["Twelve hand-picked prompts.", "Every input your customers can type, including the hostile ones."],
-  ["One user in one browser tab.", "Thousands of sessions at once, each with a budget."],
-  ["It looked right in the meeting.", "Evaluations that fail the release when it isn't right."],
-  ["The model can call anything.", "Scoped permissions, human approval where it matters, an audit trail."],
-  ["A notebook on someone's laptop.", "Versioned, monitored, and rolled back in one step."],
-  ["Built around this month's model.", "Swap models without rewriting the product."],
+// What we build. Each capability sits against the problem it solves: the
+// problem on the "today" side of the seam, the build on the DarkOS side.
+const BUILD: { name: string; problem: string; desc: string }[] = [
+  {
+    name: "Agentic platforms",
+    problem: "Work that needs judgment waits in someone's queue.",
+    desc: "Agents that plan the work, call your tools and APIs, and hand off to a person when judgment is needed.",
+  },
+  {
+    name: "Deep agents",
+    problem: "Hard problems take days of research before anyone can act.",
+    desc: "Agents that use the full reasoning power of today's models: they read the context and the environment, break complex problems into steps and see them through.",
+  },
+  {
+    name: "Agentic systems in the cloud",
+    problem: "Useful tools live on one person's machine, out of reach for everyone else.",
+    desc: "Systems that run in the cloud, so your team can reach them from anywhere, at any hour.",
+  },
+  {
+    name: "Retrieval over your data",
+    problem: "The answer is somewhere in your documents, and nobody can find it.",
+    desc: "Agents grounded in your own documents and data, with answers that show where they came from.",
+  },
+  {
+    name: "Workflow automation",
+    problem: "People spend their day copying data from one system into another.",
+    desc: "Automation across the systems you already run, so the work moves without someone carrying it.",
+  },
+  {
+    name: "Evaluation, monitoring and cost controls",
+    problem: "Nobody can say whether the AI is right, or what it costs each month.",
+    desc: "Every agent is measured before release and watched after it, with budgets that stop runaway spend.",
+  },
+  {
+    name: "Model-agnostic infrastructure",
+    problem: "You are locked into one AI vendor, its roadmap and its prices.",
+    desc: "Infrastructure in your cloud that lets you change models without rewriting the product.",
+  },
 ];
 
 const PHASES: { name: string; bring: string; deliver: string }[] = [
@@ -60,15 +92,15 @@ export default function Home() {
             <Wordmark className="hero__wordmark" />
             <h1 className="hero__title">
               <span className="hero__line hero__line--demo" data-sc-cue="0 0.8 0">
-                It worked in the demo.
+                Too much of your business still runs by hand.
               </span>{" "}
               <span className="hero__line hero__line--prod" data-sc-cue="0 0.8 0">
-                We build the version that runs.
+                We build agentic platforms.
               </span>
             </h1>
             <StageSeam draggable />
             <div className="hero__foot" data-sc-cue="0 0.74 0">
-              <p>{SITE.name} designs, builds and runs agentic AI platforms for production.</p>
+              <p>{SITE.tagline}</p>
               <a className="cta" href="#bring">
                 {SITE.cta}
               </a>
@@ -76,27 +108,31 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 2 · UNEASE: what the demo never had to handle, wiping in toward the seam */}
-        <section className="gaps" data-seam="0.52" style={s(0.52)} aria-labelledby="gaps-title">
-          <div className="split gaps__head" data-sc-act="flow">
-            <h2 id="gaps-title" className="split-heading">
+        {/* 2 · RECOGNITION: what we build, each capability against the problem it solves */}
+        <section id="build" className="build" data-seam="0.36" style={s(0.36)} aria-labelledby="build-title">
+          <div className="split build__head" data-sc-act="flow">
+            <h2 id="build-title" className="split-heading">
               <span className="split__demo split-heading__demo" data-sc-cue="0.1 1 0.22 0" data-sc-kinetic="lines">
-                In the demo, it only had to work once.
+                What slows your business down.
               </span>{" "}
               <span className="split__prod split-heading__prod" data-sc-cue="0.16 1 0.22 0" data-sc-kinetic="lines">
-                In production, it has to work every time.
+                What we build.
               </span>
             </h2>
           </div>
-          <ul className="gaps__rows">
-            {GAPS.map(([demo, prod]) => (
-              <li key={demo} className="split gaps__row" data-sc-act="flow">
-                <p className="split__demo gaps__demo" data-sc-reveal="left" data-sc-reveal-at="0.03 0.17">
-                  {demo}
+          <ul className="build__rows">
+            {BUILD.map((b) => (
+              <li key={b.name} className="split build__row" data-sc-act="flow">
+                <p className="split__demo build__problem" data-sc-reveal="left" data-sc-reveal-at="0.03 0.17">
+                  {b.problem}
                 </p>
-                <p className="split__prod gaps__prod" data-sc-reveal="right" data-sc-reveal-at="0.06 0.2">
-                  {prod}
-                </p>
+                <div className="split__prod build__prod" data-sc-reveal="right" data-sc-reveal-at="0.06 0.2">
+                  <h3 className="build__name">{b.name}</h3>
+                  <div className="build__body">
+                    <p className="build__desc">{b.desc}</p>
+                    <PickButton name={b.name} />
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
@@ -135,18 +171,6 @@ export default function Home() {
               </li>
             ))}
           </ol>
-          <div className="split method__build" data-sc-in>
-            <div className="split__demo">
-              <h3 className="method__phase">What we build</h3>
-            </div>
-            <ul className="split__prod method__list">
-              <li>Agentic platforms that plan, call tools and hand off to people</li>
-              <li>Retrieval over your own documents and data</li>
-              <li>Workflow automation across the systems you already run</li>
-              <li>Evaluation, monitoring and cost controls</li>
-              <li>Model-agnostic infrastructure in your cloud</li>
-            </ul>
-          </div>
         </section>
 
         {/* 5 · SILENCE → RELIEF → RESOLVE: the seam sweeps to the edge */}
